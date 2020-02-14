@@ -57,7 +57,7 @@ public class CmdHandler implements CommandExecutor {
                 entry.getValue().invoke(wrapper.instance, sender, newArgs);
             } catch (Throwable throwable) {
                 // 出现任何错误直接甩锅
-                throw new IllegalStateException("执行插件" + wrapper.plugin.getName() + " 命令 " + cmd + " 子命令 " + annotation.name() + " 时出现错误！", throwable);
+                throw new IllegalStateException("执行插件 " + wrapper.plugin.getName() + " 命令 " + cmd + " 子命令 " + annotation.name() + " 时出现错误！", throwable);
             }
             return true;
         }

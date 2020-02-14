@@ -1,9 +1,12 @@
 package xyz.hstudio.hstudiolibrary.command;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.Plugin;
 import xyz.hstudio.hstudiolibrary.command.annotation.Cmd;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -40,6 +43,24 @@ public class CmdUtils {
         CmdHandler.CmdWrapper wrapper = new CmdHandler.CmdWrapper(plugin, instance, subCmdList, cmdNotFoundMsg);
         CmdHandler.COMMANDS.put(name.toLowerCase(), wrapper);
         // 将命令执行器注册给CmdHandler
-        Bukkit.getPluginCommand(name).setExecutor(HANDLER);
+        try {
+            PluginCommand command = Bukkit.getPluginCommand(name.toLowerCase());
+            if (command == null) {
+                Constructor<PluginCommand> constructor = PluginCommand.class
+                        .getDeclaredConstructor(String.class, Plugin.class);
+                constructor.setAccessible(true);
+                command = constructor.newInstance(name.toLowerCase(), plugin);
+                constructor.setAccessible(false);
+
+                Method method = Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap");
+                SimpleCommandMap commandMap = (SimpleCommandMap) method.invoke(Bukkit.getServer());
+                commandMap.register(plugin.getName().toLowerCase().trim(), command);
+
+                command = Bukkit.getPluginCommand(name.toLowerCase());
+            }
+            command.setExecutor(HANDLER);
+        } catch (Throwable throwable) {
+            throw new IllegalStateException("注册命令 " + name + " 时出现错误！", throwable);
+        }
     }
 }
