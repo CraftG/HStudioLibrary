@@ -1,7 +1,7 @@
 package xyz.hstudio.hstudiolibrary.yaml;
 
 import org.bukkit.plugin.Plugin;
-import xyz.hstudio.hstudiolibrary.yaml.annotation.Load;
+import xyz.hstudio.hstudiolibrary.yaml.annotation.LoadConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class YamlUtils {
     public static <T> T load(final Plugin plugin, final T instance, final File file, final boolean update) {
         // 如果File不存在就扔报错
         if (!file.exists()) {
-            throw new IllegalStateException("The file " + file.getName() + " is not exist!");
+            throw new IllegalStateException("文件 " + file.getName() + " 不存在！");
         }
         // 使用UTF8编码加载
         Yaml yaml = Yaml.loadConfiguration(file);
@@ -29,7 +29,7 @@ public class YamlUtils {
             try {
                 field.setAccessible(true);
                 // 判断是否有注解
-                Load annotation = field.getAnnotation(Load.class);
+                LoadConfig annotation = field.getAnnotation(LoadConfig.class);
                 if (annotation == null) {
                     continue;
                 }
@@ -48,7 +48,7 @@ public class YamlUtils {
                 // 给成员赋值
                 field.set(instance, value);
             } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Failed to load the value " + field.getName() + " !");
+                throw new IllegalStateException("加载文件 " + file.getName() + " 值 " + field.getName() + " 时出现错误！");
             } finally {
                 field.setAccessible(false);
             }
@@ -58,7 +58,7 @@ public class YamlUtils {
                 // 如果update==true，保存配置到文件
                 yaml.save(file);
             } catch (IOException e) {
-                throw new IllegalStateException("Failed to save the config " + file.getName() + " !");
+                throw new IllegalStateException("保存文件 " + file.getName() + " 时出现错误！");
             }
         }
         return instance;

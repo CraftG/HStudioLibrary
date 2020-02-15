@@ -5,6 +5,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.Plugin;
 import xyz.hstudio.hstudiolibrary.command.annotation.Cmd;
+import xyz.hstudio.hstudiolibrary.command.annotation.Tab;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -39,8 +40,20 @@ public class CmdUtils {
             }
             subCmdList.add(new AbstractMap.SimpleImmutableEntry<>(annotation, method));
         }
+        // 子命令Tab处理器列表
+        // 参数：Entry<注解, 方法>
+        List<Map.Entry<Tab, Method>> subTabList = new ArrayList<>();
+        // 遍历该类的所有方法
+        for (Method method : instance.getClass().getMethods()) {
+            // 判断是否有注解
+            Tab annotation = method.getAnnotation(Tab.class);
+            if (annotation == null) {
+                continue;
+            }
+            subTabList.add(new AbstractMap.SimpleImmutableEntry<>(annotation, method));
+        }
         // 保存该命令
-        CmdHandler.CmdWrapper wrapper = new CmdHandler.CmdWrapper(plugin, instance, subCmdList, cmdNotFoundMsg);
+        CmdHandler.CmdWrapper wrapper = new CmdHandler.CmdWrapper(plugin, instance, subCmdList, subTabList, cmdNotFoundMsg);
         CmdHandler.COMMANDS.put(name.toLowerCase(), wrapper);
         // 将命令执行器注册给CmdHandler
         try {
