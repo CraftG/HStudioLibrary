@@ -55,7 +55,7 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats</pattern>
+                            <pattern>org.bstats.bukkit</pattern>
                             <!-- Replace this with your package! -->
                             <shadedPattern>xyz.hstudio.hstudiolibrary</shadedPattern>
                         </relocation>
