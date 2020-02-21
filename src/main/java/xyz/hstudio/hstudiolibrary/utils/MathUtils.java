@@ -3,7 +3,7 @@ package xyz.hstudio.hstudiolibrary.utils;
 public class MathUtils {
 
     /**
-     * 取两个点的平面欧几里得距离
+     * 取两个点的欧几里得距离
      *
      * @param xDiff 两点x轴的差值
      * @param zDiff 两点z轴的差值

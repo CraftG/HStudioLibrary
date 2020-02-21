@@ -5,6 +5,9 @@ import java.io.Reader;
 
 public class IOUtils {
 
+    /**
+     * 读取Reader为String
+     */
     public static String toString(final Reader reader) {
         try {
             BufferedReader in = new BufferedReader(reader);
