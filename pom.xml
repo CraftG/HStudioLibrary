@@ -6,7 +6,7 @@
 
     <groupId>xyz.hstudio</groupId>
     <artifactId>HStudioLibrary</artifactId>
-    <version>DEV</version>
+    <version>1.0.4</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -103,6 +103,13 @@
 
     <build>
         <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
