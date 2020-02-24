@@ -8,6 +8,9 @@ public class McAccessor {
 
     static {
         switch (Version.VERSION) {
+            case v1_7_R4:
+                INSTANCE = new v1_7_R4();
+                break;
             case v1_8_R3:
                 INSTANCE = new v1_8_R3();
                 break;

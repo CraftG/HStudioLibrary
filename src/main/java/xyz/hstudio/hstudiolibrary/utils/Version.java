@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 public enum Version {
 
+    v1_7_R4,
     v1_8_R3,
     v1_9_R2,
     v1_10_R1,
